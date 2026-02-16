@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="900" y2="400">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#06b6d4" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="400" rx="12" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="450" y="52" text-anchor="middle" fill="#f1f5f9" font-family="system-ui, sans-serif" font-size="32" font-weight="700">🧠 MentorMind</text>
+  <text x="450" y="78" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="14">AI-powered Telegram bot for active learning with multi-persona analysis</text>
+
+  <!-- Flow boxes -->
+  <!-- Raindrop -->
+  <rect x="30" y="120" width="130" height="70" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="95" y="152" text-anchor="middle" fill="#06b6d4" font-family="system-ui, sans-serif" font-size="22">📑</text>
+  <text x="95" y="175" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="12" font-weight="600">Raindrop.io</text>
+
+  <!-- Arrow 1 -->
+  <line x1="160" y1="155" x2="195" y2="155" stroke="#475569" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <defs><marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#475569"/></marker></defs>
+
+  <!-- Extractor -->
+  <rect x="200" y="110" width="140" height="90" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="270" y="142" text-anchor="middle" fill="#10b981" font-family="system-ui, sans-serif" font-size="22">🔬</text>
+  <text x="270" y="165" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="12" font-weight="600">2-Layer Extractor</text>
+  <text x="270" y="185" text-anchor="middle" fill="#64748b" font-family="system-ui, sans-serif" font-size="10">Camofox · Trafilatura · Jina</text>
+
+  <!-- Arrow 2 -->
+  <line x1="340" y1="155" x2="375" y2="155" stroke="#475569" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Analyzer -->
+  <rect x="380" y="110" width="150" height="90" rx="10" fill="#1e293b" stroke="url(#glow)" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="455" y="142" text-anchor="middle" fill="#8b5cf6" font-family="system-ui, sans-serif" font-size="22">🤖</text>
+  <text x="455" y="165" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="12" font-weight="600">AI Multi-Persona</text>
+  <text x="455" y="185" text-anchor="middle" fill="#64748b" font-family="system-ui, sans-serif" font-size="10">Scout · Builder · Debater · Chief</text>
+
+  <!-- Arrow 3 -->
+  <line x1="530" y1="155" x2="565" y2="155" stroke="#475569" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Telegram -->
+  <rect x="570" y="120" width="130" height="70" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="635" y="152" text-anchor="middle" fill="#3b82f6" font-family="system-ui, sans-serif" font-size="22">💬</text>
+  <text x="635" y="175" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="12" font-weight="600">Telegram Bot</text>
+
+  <!-- Arrow 4 -->
+  <line x1="700" y1="155" x2="735" y2="155" stroke="#475569" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- User -->
+  <rect x="740" y="120" width="130" height="70" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="805" y="152" text-anchor="middle" fill="#f59e0b" font-family="system-ui, sans-serif" font-size="22">👤</text>
+  <text x="805" y="175" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="12" font-weight="600">You</text>
+
+  <!-- Bottom features -->
+  <!-- Feature 1 -->
+  <rect x="55" y="250" width="170" height="110" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="140" y="282" text-anchor="middle" fill="#06b6d4" font-family="system-ui, sans-serif" font-size="20">📊</text>
+  <text x="140" y="305" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="12" font-weight="600">Weekly Synthesis</text>
+  <text x="140" y="322" text-anchor="middle" fill="#64748b" font-family="system-ui, sans-serif" font-size="10">Themes · Gaps · Suggestions</text>
+  <text x="140" y="340" text-anchor="middle" fill="#64748b" font-family="system-ui, sans-serif" font-size="10">Auto Sunday 23:00</text>
+
+  <!-- Feature 2 -->
+  <rect x="255" y="250" width="170" height="110" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="340" y="282" text-anchor="middle" fill="#8b5cf6" font-family="system-ui, sans-serif" font-size="20">🪞</text>
+  <text x="340" y="305" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="12" font-weight="600">Guided Reflection</text>
+  <text x="340" y="322" text-anchor="middle" fill="#64748b" font-family="system-ui, sans-serif" font-size="10">Insights · Actions · Confidence</text>
+  <text x="340" y="340" text-anchor="middle" fill="#64748b" font-family="system-ui, sans-serif" font-size="10">3-step flow</text>
+
+  <!-- Feature 3 -->
+  <rect x="455" y="250" width="170" height="110" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="540" y="282" text-anchor="middle" fill="#10b981" font-family="system-ui, sans-serif" font-size="20">🔥</text>
+  <text x="540" y="305" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="12" font-weight="600">Streak Tracking</text>
+  <text x="540" y="322" text-anchor="middle" fill="#64748b" font-family="system-ui, sans-serif" font-size="10">Daily streak · Session timer</text>
+  <text x="540" y="340" text-anchor="middle" fill="#64748b" font-family="system-ui, sans-serif" font-size="10">Stats dashboard</text>
+
+  <!-- Feature 4 -->
+  <rect x="655" y="250" width="170" height="110" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="740" y="282" text-anchor="middle" fill="#f59e0b" font-family="system-ui, sans-serif" font-size="20">🦊</text>
+  <text x="740" y="305" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="12" font-weight="600">Camofox Browser</text>
+  <text x="740" y="322" text-anchor="middle" fill="#64748b" font-family="system-ui, sans-serif" font-size="10">Facebook · LinkedIn · Instagram</text>
+  <text x="740" y="340" text-anchor="middle" fill="#64748b" font-family="system-ui, sans-serif" font-size="10">Anti-detection extraction</text>
+
+  <!-- Subtle grid pattern -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+  </pattern>
+  <rect width="900" height="400" rx="12" fill="url(#grid)" opacity="0.3"/>
+</svg>

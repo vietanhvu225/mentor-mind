@@ -1,0 +1,60 @@
+schema: spec-driven
+
+context: |
+  ## Project: MentorMind
+  AI-powered Telegram bot giúp duy trì thói quen học AI hàng ngày.
+
+  ## Tech Stack
+  - Python 3.11+
+  - python-telegram-bot (Telegram Bot API, ConversationHandler)
+  - SQLite (local file)
+  - APScheduler (timezone-aware scheduling)
+  - LLM: 1 mid-tier model (TBD — separate change)
+  - Article extraction: trafilatura / Jina Reader API
+  - Config: python-dotenv (.env)
+
+  ## Architecture
+  - Single LLM call per article with multi-section prompt (3 personas + synthesizer)
+  - Raindrop API → scan ALL collections → article queue
+  - On-demand flow: baseline 1 bài/ngày auto + /next for more
+  - ConversationHandler for reflection flow (3-step: insight, action, confidence)
+  - Batch digest for backlog processing (5 articles/digest)
+  - Sessions tracking for 1h/day commitment
+
+  ## Conventions
+  - Output: tiếng Việt, thuật ngữ kỹ thuật giữ tiếng Anh
+  - Prompt files: .md format, hybrid structure (template + personas/)
+  - Anti-overengineering: no vector DB, no microservice, no dashboard, no multi-model
+  - Lean – Structured – Scalable
+
+  ## Key Decisions
+  - Reflection: Option B (ConversationHandler), Option C (Inline Keyboard) saved for future
+  - Schema: articles.action_item (AI) + reflections.action_item (user) — both kept
+  - articles.status field: queued/sent/reflected/digest_reviewed
+  - daily_streak table removed — calculate dynamically from reflections
+  - sessions table for commitment tracking
+  - batch_digests table for backlog processing
+
+  ## Schedule
+  - Weekday: 21:00 UTC+7 (PC on 20:00)
+  - Saturday: 12:30 UTC+7 (PC on 12:00)
+  - Sunday: 20:30 UTC+7 (PC on 20:00), 23:00 weekly synthesis
+  - Local hosting (bot runs when PC is on)
+
+rules:
+  proposal:
+    - Keep proposals concise, under 500 words
+    - Always include "Không làm" (out of scope) section
+    - Reference the anti-overengineering rules
+  specs:
+    - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY)
+    - Scenarios in Given/When/Then format
+    - Viết tiếng Việt, thuật ngữ kỹ thuật giữ English
+  design:
+    - Include data flow diagrams where applicable
+    - Reference existing project structure
+    - Justify tech choices against anti-overengineering rules
+  tasks:
+    - Break into chunks completable in 1-2 hours
+    - Group by component (bot/, services/, db/, prompts/)
+    - Include Definition of Done for each group

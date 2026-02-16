@@ -1,0 +1,26 @@
+# Data
+data/
+*.db
+*.db-journal
+
+# Environment
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Test results
+test_results.txt
+
+# IDE
+.vscode/
+.idea/
+
+# Gemini artifacts
+.gemini/
+
+# OS files
+Thumbs.db
+.DS_Store
