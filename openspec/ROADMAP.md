@@ -24,23 +24,24 @@
 > See [COMPARISON.md](file:///g:/Target/1-Personal%20AI%20Learning%20Assistant/COMPARISON.md) for full analysis.
 > See [docs/research/ai-assistant-explore.md](file:///g:/Target/1-Personal%20AI%20Learning%20Assistant/docs/research/ai-assistant-explore.md) for explore notes.
 
-### 2A: Study (Research — separate workspace)
+### 2A: Study (Research — separate workspace `g:\Target\2-nanobot-study\`)
 | # | Change | Scope | Status |
 |---|--------|-------|--------|
-| 12 | `study-nanobot` | Install, use, read source, understand architecture | 📋 Planned |
-| 13 | `study-zeroclaw` | Study Rust/trait-based architecture (optional) | 📋 Planned |
+| 12 | `study-nanobot` | Install, use, read source. **Focus: multi-channel abstraction pattern** | 📋 Planned |
+| 13 | `study-zeroclaw` | Study Rust/trait-based architecture concepts (optional) | 📋 Planned |
 
 ### 2B: Borrow Patterns (Apply to MentorMind)
 | # | Change | Scope | Status |
 |---|--------|-------|--------|
-| 14 | `semantic-memory` | Semantic search across articles & insights | 📋 Planned |
-| 15 | `proactive-reminders` | Spaced repetition, review nudges | 📋 Planned |
-| 16 | `channel-abstraction` | Decouple from Telegram, support multi-channel (optional) | 📋 Planned |
+| 14 | `channel-abstraction` | 🔥 Decouple from Telegram, create Channel ABC interface | 📋 Planned |
+| 15 | `discord-integration` | 🔥 Add Discord channel (Pycord), run parallel with Telegram | 📋 Planned |
+| 16 | `semantic-memory` | Semantic search across articles & insights | 📋 Planned |
+| 17 | `proactive-reminders` | Spaced repetition, review nudges | 📋 Planned |
 
 ### 2C: Rebuild (Decide after 2B)
 | # | Change | Scope | Status |
 |---|--------|-------|--------|
-| 17 | `assistant-rebuild` | Rebuild MentorMind on AI Assistant framework | ❓ Decide after 2B |
+| 18 | `assistant-rebuild` | Rebuild MentorMind on AI Assistant framework | ❓ Decide after 2B |
 
 ### Optional — Enhancements
 | # | Change | Scope |
