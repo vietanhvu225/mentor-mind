@@ -16,6 +16,7 @@
 | 8 | `reflection-system` | 2 | ✅ Archived 2026-02-16 |
 | 9 | `batch-digest` | 2 | ✅ Archived 2026-02-16 |
 | 10 | `weekly-synthesis` | 3 | ✅ Archived 2026-02-16 |
+| 11 | `i18n-support` | Enhancement | ✅ Archived 2026-02-17 |
 
 ## 📋 Remaining
 
