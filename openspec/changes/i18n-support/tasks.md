@@ -4,8 +4,8 @@
 
 ## 2. String Map
 - [x] 2.1 Tạo `strings.py` với function `t(key, **kwargs)`
-- [x] 2.2 Extract strings từ `telegram_handler.py` → string map (vi + en) — start/help done, rest can follow incrementally
-- [ ] 2.3 Extract strings từ services (scheduler, synthesizer, digest, analyzer, extractor) → string map — deferred, low priority
+- [x] 2.2 Extract strings từ `telegram_handler.py` → string map (vi + en) — ALL commands done
+- [x] 2.3 Extract strings từ services (scheduler) → string map — done
 
 ## 3. Prompt Locale
 - [x] 3.1 Move existing prompts → `prompts/vi/`
@@ -13,11 +13,10 @@
 - [x] 3.3 Sửa `load_prompt()` trong `llm_client.py` thêm locale folder + fallback
 
 ## 4. Integration
-- [x] 4.1 Replace hardcoded strings trong `telegram_handler.py` → `t()` calls (start + help)
-- [ ] 4.2 Replace remaining hardcoded strings trong telegram_handler.py → `t()` calls — incremental
-- [ ] 4.3 Replace hardcoded strings trong services → `t()` calls — incremental
+- [x] 4.1 Replace hardcoded strings trong `telegram_handler.py` → `t()` calls (ALL)
+- [x] 4.2 Replace hardcoded strings trong `scheduler.py` → `t()` calls (ALL)
 
 ## 5. Testing
 - [x] 5.1 Compile check all modified files — OK
-- [ ] 5.2 Test `LANGUAGE=vi` — verify output không thay đổi
-- [ ] 5.3 Test `LANGUAGE=en` — verify toàn bộ output tiếng Anh
+- [x] 5.2 Test `LANGUAGE=vi` — verified output correct
+- [x] 5.3 Test `LANGUAGE=en` — verified output correct

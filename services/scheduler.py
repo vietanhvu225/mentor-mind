@@ -15,6 +15,8 @@ from typing import Optional
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 
+from strings import t
+
 import config
 
 logger = logging.getLogger(__name__)
@@ -104,7 +106,7 @@ async def _daily_job() -> None:
 
     # Notify user that job has started
     try:
-        await _bot.send_message(chat_id=chat_id, text="⏰ Daily job started...")
+        await _bot.send_message(chat_id=chat_id, text=t("daily_started"))
     except Exception:
         pass
 
@@ -132,7 +134,7 @@ async def _daily_job() -> None:
         if not article:
             await _bot.send_message(
                 chat_id=chat_id,
-                text="📭 Daily Update\n\nQueue trống! Bookmark thêm bài trên Raindrop.",
+                text=t("daily_queue_empty"),
             )
             return
 
@@ -150,7 +152,7 @@ async def _daily_job() -> None:
         if not extraction.content:
             await _bot.send_message(
                 chat_id=chat_id,
-                text=f"⚠️ Daily job: không extract được content cho #{article_id}: {title[:60]}",
+                text=t("daily_extract_fail", id=article_id, title=title[:60]),
             )
             return
 
@@ -185,7 +187,7 @@ async def _daily_job() -> None:
         update_article_status(db_path, article_id, "sent")
 
         # Step 6: Send to Telegram — NO parse_mode to avoid 400 errors on LLM output
-        lines = [f"☀️ Daily Analysis — #{article_id}\n📰 {title}\n🔗 {source_url}\n"]
+        lines = [t("daily_analysis_header", id=article_id, title=title, url=source_url)]
 
         if analysis.stage_1_output:
             lines.append(analysis.stage_1_output)
@@ -204,7 +206,7 @@ async def _daily_job() -> None:
         try:
             await _bot.send_message(
                 chat_id=chat_id,
-                text=f"⚠️ Daily job failed\n\n{e}",
+                text=t("daily_failed", error=str(e)),
             )
         except Exception:
             pass
@@ -227,18 +229,19 @@ async def _weekly_job():
         result = create_weekly_synthesis(db_path)
 
         if result.error:
-            await _bot.send_message(chat_id=chat_id, text=f"⚠️ Weekly: {result.error}")
+            await _bot.send_message(chat_id=chat_id, text=t("weekly_job_error", error=result.error))
             return
 
         # Build output
         lines = [
-            f"📊 *Weekly Synthesis* ({result.week_start})\n",
-            f"📚 Articles: {result.articles_count}"
-            f" | 💭 Reflections: {result.reflections_count}"
-            f" | ⏱️ {result.total_session_minutes} phút",
+            t("weekly_header", week_start=result.week_start),
+            t("weekly_stats",
+              articles=result.articles_count,
+              reflections=result.reflections_count,
+              minutes=result.total_session_minutes),
         ]
         if result.avg_confidence > 0:
-            lines.append(f"📈 Avg confidence: {result.avg_confidence:.1f}/10")
+            lines.append(t("status_avg_conf", avg=f"{result.avg_confidence:.1f}"))
         lines.append("")
         lines.append(result.output)
 
@@ -254,7 +257,7 @@ async def _weekly_job():
     except Exception as e:
         logger.error(f"Weekly job failed: {e}", exc_info=True)
         try:
-            await _bot.send_message(chat_id=chat_id, text=f"⚠️ Weekly job failed\n\n{e}")
+            await _bot.send_message(chat_id=chat_id, text=t("weekly_job_failed", error=str(e)))
         except Exception:
             pass
 

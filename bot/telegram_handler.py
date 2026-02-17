@@ -63,10 +63,10 @@ async def status_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         counts = count_articles_by_status(db_path)
         total = sum(counts.values()) if counts else 0
 
-        lines = ["📊 *Status*\n"]
+        lines = [t("status_header")]
 
         if total == 0:
-            lines.append("Chưa có articles nào trong hệ thống.")
+            lines.append(t("status_empty"))
         else:
             status_emoji = {
                 "queued": "📥",
@@ -78,36 +78,36 @@ async def status_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
             for status, count in counts.items():
                 emoji = status_emoji.get(status, "•")
                 lines.append(f"{emoji} {status}: {count}")
-            lines.append(f"📚 Total: {total}")
+            lines.append(t("status_total", total=total))
 
         # Streak
         streak = calculate_streak(db_path)
-        lines.append(f"\n🔥 Streak: {streak} ngày")
+        lines.append(t("status_streak", streak=streak))
 
         # Total reflections
         recent = get_recent_reflections(db_path, days=9999)
         total_reflections = len(recent) if recent else 0
-        lines.append(f"💭 Reflections: {total_reflections}")
+        lines.append(t("status_reflections", count=total_reflections))
 
         # Average confidence
         if total_reflections > 0:
             avg_conf = sum(r["confidence_score"] for r in recent) / total_reflections
-            lines.append(f"📈 Avg confidence: {avg_conf:.1f}/10")
+            lines.append(t("status_avg_conf", avg=f"{avg_conf:.1f}"))
 
         # Today's session time
         today_str = date.today().isoformat()
         sessions = get_sessions_by_date(db_path, today_str)
         total_minutes = sum(s["duration_minutes"] for s in sessions) if sessions else 0
         if total_minutes > 0:
-            lines.append(f"\n⏱️ Học hôm nay: {total_minutes} phút")
+            lines.append(t("status_session_today", minutes=total_minutes))
         else:
-            lines.append(f"\n⏱️ Chưa có session hôm nay")
+            lines.append(t("status_no_session"))
 
         text = "\n".join(lines)
         await update.message.reply_text(text, parse_mode="Markdown")
     except Exception as e:
         logger.error(f"Error in /status: {e}")
-        await update.message.reply_text("❌ Không thể lấy status. Check logs.")
+        await update.message.reply_text(t("status_error"))
 
 
 async def analyze_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -126,14 +126,14 @@ async def analyze_command(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         article = get_article_by_id(db_path, target_id)
         if not article:
             await update.message.reply_text(
-                f"❌ Không tìm thấy bài với ID={target_id}."
+                t("analyze_not_found", id=target_id)
             )
             return
     else:
         article = pick_next_article(db_path)
         if not article:
             await update.message.reply_text(
-                "📭 Queue trống! Dùng /sync để lấy bài mới từ Raindrop."
+                t("analyze_queue_empty")
             )
             return
 
@@ -143,10 +143,7 @@ async def analyze_command(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     excerpt = article.get("raw_content", "")
 
     await update.message.reply_text(
-        f"⏳ Đang xử lý: *{title}*\n"
-        f"🆔 ID: {article_id}\n"
-        f"🔗 {source_url}\n\n"
-        f"Bước 1/3: Extracting content...",
+        t("analyze_processing", title=title, id=article_id, url=source_url),
         parse_mode="Markdown",
     )
 
@@ -172,7 +169,7 @@ async def analyze_command(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
                 await update.message.reply_text(w)
 
         await update.message.reply_text(
-            "Bước 2/3: Analyzing with LLM...\n\n" + "\n".join(status_parts)
+            t("analyze_step_llm") + "\n".join(status_parts)
         )
 
         # Update raw_content in DB if we got better content
@@ -187,7 +184,7 @@ async def analyze_command(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         # 3. Run LLM analysis (multimodal if images available)
         if not extraction.content:
             await update.message.reply_text(
-                "❌ Không extract được content. Dùng /analyze để thử bài khác."
+                t("analyze_no_content")
             )
             return
 
@@ -246,13 +243,12 @@ async def analyze_command(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         # 6. If short content, prompt user to paste link from comments
         if extraction.word_count < 200 and extraction.source == "og_meta":
             await update.message.reply_text(
-                "📎 Bài ngắn (Facebook preview). Nếu có link ở comment, "
-                "gửi URL trực tiếp ở đây — mình sẽ extract & phân tích bổ sung."
+                t("analyze_short_content")
             )
 
         # 7. Show GitHub links found in content
         if extraction.github_links:
-            gh_text = "🔗 *GitHub repos trong bài:*\n"
+            gh_text = t("analyze_github_repos")
             for gh_url in extraction.github_links:
                 gh_text += f"  → {gh_url}\n"
             await update.message.reply_text(gh_text)
@@ -260,8 +256,7 @@ async def analyze_command(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     except Exception as e:
         logger.error(f"Error in /analyze: {e}", exc_info=True)
         await update.message.reply_text(
-            f"❌ Phân tích thất bại: {e}\n\n"
-            "Kiểm tra:\n• Antigravity proxy chạy chưa?\n• API key đúng chưa?"
+            t("analyze_error_detail", error=str(e))
         )
 
 
@@ -270,7 +265,7 @@ async def sync_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     import asyncio
     from services.raindrop import fetch_all_new_raindrops, sync_raindrops_to_db
 
-    await update.message.reply_text("⏳ Đang sync Raindrop...")
+    await update.message.reply_text(t("sync_start"))
 
     try:
         db_path = str(config.DATABASE_PATH)
@@ -288,18 +283,16 @@ async def sync_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
             None, sync_raindrops_to_db, new_raindrops, db_path
         )
 
-        text = (
-            f"✅ *Sync hoàn tất!*\n\n"
-            f"📥 Fetched: {result.total_fetched}\n"
-            f"🆕 Mới: {result.new_inserted}\n"
-            f"⏭️ Đã có: {result.skipped}"
-        )
+        text = t("sync_complete",
+                 fetched=result.total_fetched,
+                 new=result.new_inserted,
+                 skipped=result.skipped)
         await update.message.reply_text(text, parse_mode="Markdown")
 
     except Exception as e:
         logger.error(f"Sync failed: {e}", exc_info=True)
         await update.message.reply_text(
-            "❌ Sync thất bại. Kiểm tra API token và kết nối mạng."
+            t("sync_error", error=str(e))
         )
 
 
@@ -317,7 +310,7 @@ async def reset_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
             sent_count = before.get("sent", 0)
             if sent_count == 0:
                 await update.message.reply_text(
-                    "✅ Không có bài nào cần reset — tất cả đã là 'queued'."
+                    t("reset_nothing")
                 )
                 return
 
@@ -327,16 +320,13 @@ async def reset_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
 
         total = sum(before.values())
         await update.message.reply_text(
-            f"🔄 Reset xong!\n\n"
-            f"Trước: {before}\n"
-            f"Sau: tất cả {total} bài → queued\n\n"
-            f"Dùng /analyze để phân tích lại từ đầu."
+            t("reset_done", before=before, total=total)
         )
         logger.info(f"Reset {sent_count} articles to 'queued'")
 
     except Exception as e:
         logger.error(f"Reset failed: {e}", exc_info=True)
-        await update.message.reply_text(f"❌ Reset thất bại: {e}")
+        await update.message.reply_text(t("reset_error", error=str(e)))
 
 
 async def next_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -347,7 +337,7 @@ async def next_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     article = pick_next_article(db_path)
 
     if not article:
-        await update.message.reply_text("📭 Queue trống! Dùng /sync để lấy bài mới.")
+        await update.message.reply_text(t("queue_empty"))
         return
 
     article_id = article.get("id")
@@ -360,14 +350,12 @@ async def next_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     counts = count_articles_by_status(db_path)
     queued_count = counts.get("queued", 0)
 
-    text = (
-        f"📄 *Bài tiếp theo* (#{article_id})\n\n"
-        f"*{title[:100]}*\n\n"
-        f"{preview}\n\n"
-        f"🔗 {url}\n\n"
-        f"📊 Còn {queued_count} bài trong queue\n\n"
-        f"→ /analyze để phân tích | /skip để bỏ qua"
-    )
+    text = t("next_preview",
+             id=article_id,
+             title=title[:100],
+             preview=preview,
+             url=url,
+             queued=queued_count)
     await update.message.reply_text(text, parse_mode="Markdown")
 
 
@@ -379,7 +367,7 @@ async def skip_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     article = pick_next_article(db_path)
 
     if not article:
-        await update.message.reply_text("📭 Không có bài nào để skip!")
+        await update.message.reply_text(t("skip_empty"))
         return
 
     article_id = article.get("id")
@@ -387,7 +375,7 @@ async def skip_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     update_article_status(db_path, article_id, "skipped")
 
     await update.message.reply_text(
-        f"⏭️ Đã skip #{article_id}: {title[:60]}..."
+        t("skip_done", id=article_id, title=title[:60])
     )
 
     # Show next article preview
@@ -398,13 +386,14 @@ async def skip_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         ntitle = next_article.get("title", "Untitled")
         counts = count_articles_by_status(db_path)
         await update.message.reply_text(
-            f"📄 *Bài tiếp:* #{nid} — {ntitle[:80]}\n"
-            f"📊 Còn {counts.get('queued', 0)} bài\n"
-            f"→ /analyze | /skip | /next",
+            t("skip_next_preview",
+              id=nid,
+              title=ntitle[:80],
+              queued=counts.get('queued', 0)),
             parse_mode="Markdown",
         )
     else:
-        await update.message.reply_text("📭 Queue trống!")
+        await update.message.reply_text(t("queue_empty_short"))
 
 
 async def schedule_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -419,18 +408,17 @@ async def schedule_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     if not args:
         info = get_scheduler_info()
         if info["status"] == "not_initialized":
-            await update.message.reply_text("⚠️ Scheduler chưa khởi tạo.")
+            await update.message.reply_text(t("scheduler_not_init"))
             return
 
         status_icon = "🟢" if info.get("enabled") and not info.get("paused") else "🔴"
-        text = (
-            f"⏰ *Scheduler Status*\n\n"
-            f"{status_icon} Trạng thái: {'Active' if info.get('enabled') and not info.get('paused') else 'Paused/Off'}\n"
-            f"🕐 Giờ chạy: {info.get('hour', '?'):02d}:{info.get('minute', '?'):02d}\n"
-            f"🌏 Timezone: {info.get('timezone', '?')}\n"
-            f"⏭️ Lần chạy tiếp: {info.get('next_run', '?')}\n\n"
-            f"Dùng: /schedule HH:MM | /schedule on | /schedule off"
-        )
+        status_text = 'Active' if info.get('enabled') and not info.get('paused') else 'Paused/Off'
+        text = t("schedule_status",
+                 icon=status_icon,
+                 status=status_text,
+                 time=f"{info.get('hour', '?'):02d}:{info.get('minute', '?'):02d}",
+                 tz=info.get('timezone', '?'),
+                 next_run=info.get('next_run', '?'))
         await update.message.reply_text(text, parse_mode="Markdown")
         return
 
@@ -438,15 +426,15 @@ async def schedule_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -
 
     if arg == "off":
         if pause_scheduler():
-            await update.message.reply_text("🔴 Scheduler đã tắt.")
+            await update.message.reply_text(t("scheduler_off"))
         else:
-            await update.message.reply_text("⚠️ Không thể tắt scheduler.")
+            await update.message.reply_text(t("scheduler_off_error"))
 
     elif arg == "on":
         if resume_scheduler():
-            await update.message.reply_text("🟢 Scheduler đã bật lại!")
+            await update.message.reply_text(t("scheduler_on"))
         else:
-            await update.message.reply_text("⚠️ Không thể bật scheduler.")
+            await update.message.reply_text(t("scheduler_on_error"))
 
     elif ":" in arg:
         try:
@@ -456,24 +444,24 @@ async def schedule_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -
                 raise ValueError
             if reschedule(hour, minute):
                 await update.message.reply_text(
-                    f"✅ Đã đổi lịch → {hour:02d}:{minute:02d}"
+                    t("schedule_rescheduled", time=f"{hour:02d}:{minute:02d}")
                 )
             else:
-                await update.message.reply_text("⚠️ Không thể đổi lịch.")
+                await update.message.reply_text(t("scheduler_reschedule_error"))
         except (ValueError, IndexError):
             await update.message.reply_text(
-                "⚠️ Format sai. Dùng: /schedule HH:MM (VD: /schedule 9:30)"
+                t("schedule_format_error")
             )
     else:
         await update.message.reply_text(
-            "⚠️ Dùng: /schedule | /schedule HH:MM | /schedule on | /schedule off"
+            t("schedule_usage")
         )
 
 
 async def unknown_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Handle unknown commands."""
     await update.message.reply_text(
-        "🤔 Không hiểu command này. Dùng /help để xem danh sách commands."
+        t("unknown_command")
     )
 
 
@@ -567,7 +555,7 @@ async def url_message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE
 
     url = urls[0]  # Take the first URL
     await update.message.reply_text(
-        f"🔗 Đang extract content từ:\n{url}\n\n⏳ Extracting..."
+        t("url_extracting", url=url)
     )
 
     try:
@@ -578,7 +566,7 @@ async def url_message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE
 
         if not extraction.content:
             await update.message.reply_text(
-                "❌ Không extract được content từ URL này."
+                t("url_no_content")
             )
             return
 
@@ -596,7 +584,7 @@ async def url_message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE
                 await update.message.reply_text(w)
 
         await update.message.reply_text(
-            "⏳ Analyzing with LLM...\n\n" + "\n".join(status_parts)
+            t("url_analyzing") + "\n".join(status_parts)
         )
 
         # Run LLM analysis
@@ -611,7 +599,7 @@ async def url_message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE
         )
 
         # Format and send
-        lines = [f"📰 *Phân tích bổ sung*\n🔗 {url}\n"]
+        lines = [t("url_supplementary", url=url)]
 
         if result.stage_1_output:
             lines.append(result.stage_1_output)
@@ -644,7 +632,7 @@ async def url_message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE
 
     except Exception as e:
         logger.error(f"Error in URL handler: {e}", exc_info=True)
-        await update.message.reply_text(f"❌ Phân tích thất bại: {e}")
+        await update.message.reply_text(t("url_error", error=str(e)))
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -665,13 +653,13 @@ async def overview_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -
         try:
             n = int(context.args[0])
             if n < 2 or n > 10:
-                await update.message.reply_text("⚠️ Số bài phải từ 2-10. Mặc định: 5")
+                await update.message.reply_text(t("overview_range_error"))
                 n = max(2, min(n, 10))
         except ValueError:
-            await update.message.reply_text("⚠️ Số bài phải là số. Ví dụ: /overview 5")
+            await update.message.reply_text(t("overview_number_error"))
             return
 
-    await update.message.reply_text(f"⏳ Đang tạo overview cho {n} bài queued cũ nhất...")
+    await update.message.reply_text(t("overview_start", n=n))
 
     try:
         loop = asyncio.get_running_loop()
@@ -731,7 +719,7 @@ async def overview_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -
 
     except Exception as e:
         logger.error(f"Error in /overview: {e}", exc_info=True)
-        await update.message.reply_text(f"❌ Overview thất bại: {e}")
+        await update.message.reply_text(t("overview_error", error=str(e)))
 
 
 # ── WEEKLY SYNTHESIS ───────────────────────────────────────────────
@@ -745,7 +733,7 @@ async def weekly_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
     db_path = str(config.DATABASE_PATH)
 
-    await update.message.reply_text("⏳ Đang tạo weekly synthesis...")
+    await update.message.reply_text(t("weekly_start"))
 
     try:
         loop = asyncio.get_event_loop()
@@ -759,13 +747,14 @@ async def weekly_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
         # Build output
         lines = [
-            f"📊 *Weekly Synthesis* ({result.week_start})\n",
-            f"📚 Articles: {result.articles_count}"
-            f" | 💭 Reflections: {result.reflections_count}"
-            f" | ⏱️ {result.total_session_minutes} phút",
+            t("weekly_header", week_start=result.week_start),
+            t("weekly_stats",
+              articles=result.articles_count,
+              reflections=result.reflections_count,
+              minutes=result.total_session_minutes),
         ]
         if result.avg_confidence > 0:
-            lines.append(f"📈 Avg confidence: {result.avg_confidence:.1f}/10")
+            lines.append(t("status_avg_conf", avg=f"{result.avg_confidence:.1f}"))
         lines.append("")
         lines.append(result.output)
 
@@ -798,7 +787,7 @@ async def weekly_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
     except Exception as e:
         logger.error(f"Error in /weekly: {e}", exc_info=True)
-        await update.message.reply_text(f"❌ Weekly synthesis thất bại: {e}")
+        await update.message.reply_text(t("weekly_error", error=str(e)))
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -852,19 +841,18 @@ async def reflect_command(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
             article = get_article_by_id(db_path, article_id)
             if not article:
                 await update.message.reply_text(
-                    f"❌ Không tìm thấy article #{article_id}"
+                    t("reflect_not_found", id=article_id)
                 )
                 return ConversationHandler.END
         except ValueError:
-            await update.message.reply_text("❌ ID phải là số. Ví dụ: /reflect 42")
+            await update.message.reply_text(t("reflect_id_error"))
             return ConversationHandler.END
     else:
         # Find last sent article
         sent_articles = get_articles_by_status(db_path, "sent")
         if not sent_articles:
             await update.message.reply_text(
-                "📭 Không có bài nào đã gửi để reflect.\n"
-                "→ Dùng /analyze để phân tích bài trước."
+                t("reflect_no_sent")
             )
             return ConversationHandler.END
         # Get the most recent one (last in list by ID)
@@ -878,9 +866,7 @@ async def reflect_command(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     context.user_data["reflect_title"] = title
 
     await update.message.reply_text(
-        f"💭 *Reflection — #{article_id}*\n\n"
-        f"📰 _{title[:80]}_\n\n"
-        f"*Bước 1/3:* Insight chính của bạn từ bài này là gì?",
+        t("reflect_step1", id=article_id, title=title[:80]),
         parse_mode="Markdown",
     )
     return INSIGHT
@@ -891,7 +877,7 @@ async def reflect_insight(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     context.user_data["reflect_insight"] = update.message.text
 
     await update.message.reply_text(
-        "*Bước 2/3:* Action item — bạn sẽ làm gì với kiến thức này?",
+        t("reflect_step2"),
         parse_mode="Markdown",
     )
     return ACTION
@@ -902,8 +888,7 @@ async def reflect_action(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     context.user_data["reflect_action"] = update.message.text
 
     await update.message.reply_text(
-        "*Bước 3/3:* Confidence — bạn hiểu bài này ở mức nào?\n"
-        "_(Nhập số từ 1-10, 1 = chưa hiểu, 10 = hiểu rõ)_",
+        t("reflect_step3"),
         parse_mode="Markdown",
     )
     return CONFIDENCE
@@ -920,7 +905,7 @@ async def reflect_confidence(update: Update, context: ContextTypes.DEFAULT_TYPE)
             raise ValueError
     except ValueError:
         await update.message.reply_text(
-            "⚠️ Vui lòng nhập số từ *1-10*.",
+            t("reflect_confidence_error"),
             parse_mode="Markdown",
         )
         return CONFIDENCE  # Ask again
@@ -946,19 +931,23 @@ async def reflect_confidence(update: Update, context: ContextTypes.DEFAULT_TYPE)
         # Calculate streak
         streak = calculate_streak(db_path)
 
+        insight_short = insight[:100] + ('...' if len(insight) > 100 else '')
+        action_short = action[:100] + ('...' if len(action) > 100 else '')
+
         await update.message.reply_text(
-            f"✅ *Reflection saved!*\n\n"
-            f"📰 #{article_id}: {title[:60]}\n"
-            f"💡 Insight: {insight[:100]}{'...' if len(insight) > 100 else ''}\n"
-            f"🎯 Action: {action[:100]}{'...' if len(action) > 100 else ''}\n"
-            f"📊 Confidence: {score}/10\n\n"
-            f"🔥 Streak: {streak} ngày liên tiếp!",
+            t("reflect_saved",
+              id=article_id,
+              title=title[:60],
+              insight=insight_short,
+              action=action_short,
+              score=score,
+              streak=streak),
             parse_mode="Markdown",
         )
 
     except Exception as e:
         logger.error(f"Error saving reflection: {e}", exc_info=True)
-        await update.message.reply_text(f"❌ Lỗi khi lưu reflection: {e}")
+        await update.message.reply_text(t("reflect_save_error", error=str(e)))
 
     # Clean up user_data
     for key in ["reflect_article_id", "reflect_title", "reflect_insight", "reflect_action"]:
@@ -973,7 +962,7 @@ async def reflect_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     for key in ["reflect_article_id", "reflect_title", "reflect_insight", "reflect_action"]:
         context.user_data.pop(key, None)
 
-    await update.message.reply_text("❌ Reflection đã hủy.")
+    await update.message.reply_text(t("reflect_cancelled"))
     return ConversationHandler.END
 
 
@@ -993,8 +982,7 @@ async def session_command(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
             elapsed = datetime.now() - session_start
             minutes = int(elapsed.total_seconds() / 60)
             await update.message.reply_text(
-                f"⏱️ Session đang chạy: {minutes} phút\n"
-                f"→ /session stop để kết thúc"
+                t("session_running", minutes=minutes)
             )
         else:
             # Show today's total
@@ -1003,8 +991,7 @@ async def session_command(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
             total_min = sum(s["duration_minutes"] for s in sessions) if sessions else 0
             count = len(sessions) if sessions else 0
             await update.message.reply_text(
-                f"📊 Hôm nay: {count} session, {total_min} phút\n"
-                f"→ /session start để bắt đầu"
+                t("session_today", count=count, minutes=total_min)
             )
         return
 
@@ -1015,20 +1002,18 @@ async def session_command(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
             elapsed = datetime.now() - context.user_data["session_start"]
             minutes = int(elapsed.total_seconds() / 60)
             await update.message.reply_text(
-                f"⚠️ Session đang chạy ({minutes} phút)!\n"
-                f"→ /session stop để kết thúc trước"
+                t("session_already_running", minutes=minutes)
             )
             return
 
         context.user_data["session_start"] = datetime.now()
-        await update.message.reply_text("⏱️ Session bắt đầu! Chúc bạn học tốt 📚")
+        await update.message.reply_text(t("session_started"))
 
     elif action == "stop":
         session_start = context.user_data.get("session_start")
         if not session_start:
             await update.message.reply_text(
-                "⚠️ Chưa có session nào đang chạy.\n"
-                "→ /session start để bắt đầu"
+                t("session_no_active")
             )
             return
 
@@ -1052,21 +1037,19 @@ async def session_command(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
             total_min = sum(s["duration_minutes"] for s in today_sessions) if today_sessions else 0
 
             await update.message.reply_text(
-                f"✅ Session kết thúc!\n\n"
-                f"⏱️ Thời gian: {duration_minutes} phút\n"
-                f"📊 Tổng hôm nay: {total_min} phút"
+                t("session_stopped", duration=duration_minutes, total=total_min)
             )
 
         except Exception as e:
             logger.error(f"Error saving session: {e}", exc_info=True)
-            await update.message.reply_text(f"❌ Lỗi khi lưu session: {e}")
+            await update.message.reply_text(t("session_save_error", error=str(e)))
 
         # Clean up
         context.user_data.pop("session_start", None)
 
     else:
         await update.message.reply_text(
-            "Usage: /session start | /session stop | /session"
+            t("session_usage")
         )
 
 
