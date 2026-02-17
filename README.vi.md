@@ -4,6 +4,14 @@
 
 Telegram bot cá nhân hỗ trợ học tập chủ động — tự động sync bài viết từ Raindrop.io, phân tích bằng AI multi-persona, và tổng hợp insights hàng tuần.
 
+## 📢 News
+
+- **2026-02-17** 🌐 Hỗ trợ đa ngôn ngữ (i18n) — Tiếng Việt & Tiếng Anh cho toàn bộ tin nhắn bot và LLM prompts!
+- **2026-02-16** 📊 Hoàn thành weekly synthesis, reflection system, và batch overview!
+- **2026-02-16** ⏰ Scheduler, session tracking, và toàn bộ Telegram commands hoạt động!
+- **2026-02-15** 🔗 Tích hợp Raindrop.io + smart content extraction (article/YouTube/GitHub/Facebook)!
+- **2026-02-15** 🎉 MentorMind chính thức ra mắt — core AI analysis pipeline sẵn sàng!
+
 ## ✨ Features
 
 | Feature | Mô tả |

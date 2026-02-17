@@ -4,6 +4,14 @@
 
 A personal Telegram bot for active learning — auto-syncs articles from Raindrop.io, analyzes them with AI multi-persona pipeline, and generates weekly insight reports.
 
+## 📢 News
+
+- **2026-02-17** 🌐 Full i18n support — Vietnamese & English for all bot messages and LLM prompts!
+- **2026-02-16** 📊 Weekly synthesis, reflection system, and batch overview completed!
+- **2026-02-16** ⏰ Scheduler, session tracking, and all Telegram commands implemented!
+- **2026-02-15** 🔗 Raindrop.io integration + smart content extraction (article/YouTube/GitHub/Facebook)!
+- **2026-02-15** 🎉 MentorMind officially launched — core AI analysis pipeline ready!
+
 ## ✨ Features
 
 | Feature | Description |
