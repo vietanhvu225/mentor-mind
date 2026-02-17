@@ -102,11 +102,25 @@ SCHEDULE_ENABLED=true
 # Timezone
 TZ=Asia/Ho_Chi_Minh
 
+# Language (vi = Vietnamese, en = English)
+LANGUAGE=vi
+
 # Camofox Browser (extractor for Facebook/LinkedIn posts)
 CAMOFOX_URL=http://localhost:9377
 CAMOFOX_USER_ID=learning-bot
 CAMOFOX_API_KEY=<your_api_key>
 ```
+
+## 🌐 Internationalization (i18n)
+
+MentorMind supports **Vietnamese** and **English** for all bot messages.
+
+| Setting | Language |
+|---|---|
+| `LANGUAGE=vi` | 🇻🇳 Vietnamese (default) |
+| `LANGUAGE=en` | 🇬🇧 English |
+
+All UI strings are managed in `strings.py`. LLM prompts are also localized under `prompts/vi/` and `prompts/en/`.
 
 ### Run
 

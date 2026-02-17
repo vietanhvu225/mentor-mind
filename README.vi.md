@@ -126,11 +126,25 @@ SCHEDULE_ENABLED=true
 # Timezone
 TZ=Asia/Ho_Chi_Minh
 
+# Language (vi = Tiếng Việt, en = English)
+LANGUAGE=vi
+
 # Camofox Browser (extractor for Facebook/LinkedIn ... post)
 CAMOFOX_URL=http://localhost:9377
 CAMOFOX_USER_ID=learning-bot
 CAMOFOX_API_KEY=<your_api_key>
 ```
+
+## 🌐 Đa ngôn ngữ (i18n)
+
+MentorMind hỗ trợ **Tiếng Việt** và **Tiếng Anh** cho toàn bộ tin nhắn bot.
+
+| Cài đặt | Ngôn ngữ |
+|---|---|
+| `LANGUAGE=vi` | 🇻🇳 Tiếng Việt (mặc định) |
+| `LANGUAGE=en` | 🇬🇧 Tiếng Anh |
+
+Toàn bộ UI strings được quản lý trong `strings.py`. LLM prompts cũng được bản địa hóa tại `prompts/vi/` và `prompts/en/`.
 
 ### Run
 
