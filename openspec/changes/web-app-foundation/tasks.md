@@ -72,7 +72,7 @@
 - [x] Create `/auth/callback/route.ts` — OAuth code exchange
 - [x] Create `/api/auth/totp-verify/route.ts` — TOTP API endpoint + trust device cookie
 - [x] Wire AuthProvider in root layout
-- [ ] Test: login → dashboard redirect, logout → login redirect
+- [x] Test: login → dashboard redirect, logout → login redirect
 
 ## 9. Data Layer
 - [x] Setup TanStack Query provider in root layout

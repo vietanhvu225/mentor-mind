@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Toggle } from "@/components/ui/toggle";
 import { PersonaTab } from "@/components/shared/persona-tab";
 import type { PersonaType } from "@/components/shared/persona-tab";

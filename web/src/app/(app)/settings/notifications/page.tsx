@@ -2,8 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { Bell, MessageSquare, Mail, Globe } from "lucide-react";
+import { MessageSquare, Mail, Globe } from "lucide-react";
 
 export default function NotificationsPage() {
     return (
