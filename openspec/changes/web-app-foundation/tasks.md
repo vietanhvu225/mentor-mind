@@ -64,15 +64,14 @@
 - [x] Create `src/middleware.ts` — root middleware wiring
 
 ## 8. Authentication
-- [ ] Create `src/lib/auth/config.ts` — read AUTH_PROVIDER, export auth mode
-- [ ] Create `src/lib/auth/provider.tsx` — AuthProvider context + useAuth hook
-- [ ] Create `src/lib/auth/totp.ts` — TOTP verify function using `otpauth`
-- [ ] Create `middleware.ts` (project root) — auth guard for `(app)` routes
-- [ ] Build Login page (`/login/page.tsx`) matching Stitch S6 mockup
-- [ ] Implement Google SSO flow (Supabase Auth)
-- [ ] Implement email/password flow (collapsed section)
-- [ ] Implement TOTP OTP flow (6-digit input)
-- [ ] Implement "Trust device" cookie (30-day)
+- [x] Create `src/lib/auth/config.ts` — AUTH_PROVIDER env, boolean flags
+- [x] Create `src/lib/auth/provider.tsx` — AuthProvider context + useAuth hook
+- [x] Create `src/lib/auth/totp.ts` — TOTP verify via otpauth library
+- [x] Create `src/proxy.ts` — auth guard (Next.js 16: proxy replaces middleware)
+- [x] Build Login page (`/login/page.tsx`) — Google SSO + TOTP + email (collapsible)
+- [x] Create `/auth/callback/route.ts` — OAuth code exchange
+- [x] Create `/api/auth/totp-verify/route.ts` — TOTP API endpoint + trust device cookie
+- [x] Wire AuthProvider in root layout
 - [ ] Test: login → dashboard redirect, logout → login redirect
 
 ## 9. Data Layer
