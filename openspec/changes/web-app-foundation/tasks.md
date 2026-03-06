@@ -51,17 +51,17 @@
 - [x] Wire Reflect button in reader → opens ReflectionModal
 
 ## 6. Supabase Database
-- [ ] Install Supabase CLI (`pnpm add -D supabase`)
-- [ ] Init Supabase local: `npx supabase init`
-- [ ] Write `supabase/migrations/001_initial_schema.sql` (7 tables + pgvector + RLS)
-- [ ] Run migration against cloud Supabase (via Dashboard SQL Editor or CLI)
-- [ ] Enable pgvector extension in Supabase Dashboard
-- [ ] Generate TypeScript types: `npx supabase gen types typescript --project-id <id> > src/lib/supabase/types.ts`
+- [x] Schema migration via Supabase MCP (8 tables + pgvector + RLS)
+- [x] Security advisor fixes (search_path, pgvector schema)
+- [x] TypeScript types auto-generated
+- [x] Indexes on key columns (user_id, article_id, status, raindrop_id)
+- [x] Triggers: auto-create profile on signup, updated_at on update
 
 ## 7. Supabase Client
-- [ ] Create `src/lib/supabase/client.ts` — browser client (`createBrowserClient()`)
-- [ ] Create `src/lib/supabase/server.ts` — server client for RSC (`createServerClient()`)
-- [ ] Create `src/lib/supabase/middleware.ts` — session refresh helper
+- [x] Create `src/lib/supabase/client.ts` — browser client (`createBrowserClient()`)
+- [x] Create `src/lib/supabase/server.ts` — server client for RSC (`createServerClient()`)
+- [x] Create `src/lib/supabase/middleware.ts` — session refresh helper
+- [x] Create `src/middleware.ts` — root middleware wiring
 
 ## 8. Authentication
 - [ ] Create `src/lib/auth/config.ts` — read AUTH_PROVIDER, export auth mode
@@ -76,13 +76,13 @@
 - [ ] Test: login → dashboard redirect, logout → login redirect
 
 ## 9. Data Layer
-- [ ] Setup TanStack Query provider in root layout
-- [ ] Create `src/hooks/use-articles.ts` — useArticles, useArticle(id)
-- [ ] Create `src/hooks/use-analyses.ts` — useAnalyses(articleId)
-- [ ] Create `src/hooks/use-reflections.ts` — useReflections(articleId)
-- [ ] Create `src/hooks/use-auth.ts` — wrapper around AuthProvider
-- [ ] Create `src/lib/stores/ui-store.ts` — Zustand: sidebar, modals, filters
-- [ ] Create `src/lib/stores/settings-store.ts` — Zustand: user preferences
+- [x] Setup TanStack Query provider in root layout
+- [x] Create `src/hooks/use-articles.ts` — useArticles, useArticle(id), useCreateArticle, useUpdateArticle
+- [x] Create `src/hooks/use-analyses.ts` — useAnalyses(articleId), useAnalysisByPersona
+- [x] Create `src/hooks/use-reflections.ts` — useReflections(articleId), useCreateReflection
+- [x] Create `src/hooks/use-auth.ts` — useAuth, useProfile, useSettings
+- [x] Create `src/lib/stores/ui-store.ts` — Zustand: sidebar, modals, filters
+- [x] Create `src/lib/stores/settings-store.ts` — Zustand: user preferences (persisted)
 
 ## 10. Seed Data
 - [ ] Write `supabase/seed/export-v1.py` — read V1 SQLite, export articles/tags/analyses as JSON
