@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Search, Sparkles, User, Settings, LogOut } from "lucide-react";
+import { useAuth } from "@/lib/auth/provider";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 interface TopBarProps {
@@ -18,6 +20,14 @@ interface TopBarProps {
 }
 
 export function TopBar({ onAnalyzeClick }: TopBarProps) {
+    const { signOut } = useAuth();
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        await signOut();
+        router.push("/login");
+    };
+
     return (
         <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-6">
             {/* Search */}
@@ -65,7 +75,10 @@ export function TopBar({ onAnalyzeClick }: TopBarProps) {
                             </Link>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="gap-2 text-destructive focus:text-destructive">
+                        <DropdownMenuItem
+                            className="gap-2 text-destructive focus:text-destructive cursor-pointer"
+                            onClick={handleLogout}
+                        >
                             <LogOut className="h-4 w-4" />
                             Log out
                         </DropdownMenuItem>
