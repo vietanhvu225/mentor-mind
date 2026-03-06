@@ -1,53 +1,54 @@
 # Tasks: web-app-foundation
 
 ## 1. Project Setup
-- [ ] Init Next.js 15 with App Router (`pnpm create next-app@latest ./ --ts --app --eslint --tailwind --src-dir --import-alias "@/*"`)
-- [ ] Configure strict TypeScript (`strict: true` in tsconfig)
-- [ ] Install core deps: `@supabase/supabase-js @supabase/ssr @tanstack/react-query zustand otpauth lucide-react`
+- [x] Init Next.js 15 with App Router (`pnpm create next-app@latest web --ts --app --eslint --tailwind --src-dir --import-alias "@/*" --use-pnpm`)
+- [x] Configure strict TypeScript (`strict: true` in tsconfig)
+- [x] Install core deps: `@supabase/supabase-js @supabase/ssr @tanstack/react-query zustand otpauth lucide-react`
 - [ ] Install dev deps: `prettier eslint-config-prettier husky lint-staged vitest @testing-library/react`
 - [ ] Setup Husky pre-commit hooks + lint-staged
-- [ ] Create `.env.local` from `.env.example` (Supabase credentials)
+- [x] Create `.env.local` from `.env.example` (Supabase credentials)
 
 ## 2. Design System (Tailwind + shadcn)
-- [ ] Init shadcn/ui (`pnpm dlx shadcn@latest init` — dark mode, CSS variables)
-- [ ] Configure `tailwind.config.ts` with custom tokens from `.stitch/DESIGN.md`
-- [ ] Setup `globals.css` CSS variables (dark mode default, HSL colors)
-- [ ] Setup fonts: Inter + Fira Code via `next/font/google`
-- [ ] Install shadcn components: Button, Card, Dialog, Table, Tabs, Input, Textarea, Checkbox, Slider, Toggle, Select, Badge, Avatar, Separator, Dropdown Menu, Tooltip, Skeleton, Label
-- [ ] Build `ConfidenceDot` component (8px circle, red/amber/green)
-- [ ] Build `StatCard` component (icon + label + value)
-- [ ] Build `PersonaTab` component (emoji + name + badge)
-- [ ] Build `Heatmap` component (CSS Grid contribution chart)
+- [x] Init shadcn/ui (`pnpm dlx shadcn@latest init` — dark mode, CSS variables)
+- [x] Configure Tailwind v4 with custom tokens from `.stitch/DESIGN.md`
+- [x] Setup `globals.css` CSS variables (dark mode default, hex colors)
+- [x] Setup fonts: Inter + Fira Code via `next/font/google`
+- [x] Install shadcn components: Button, Card, Dialog, Table, Tabs, Input, Textarea, Checkbox, Slider, Toggle, Select, Badge, Avatar, Separator, Dropdown Menu, Tooltip, Skeleton, Label
+- [x] Build `ConfidenceDot` component (8px circle, red/amber/green)
+- [x] Build `StatCard` component (icon + label + value)
+- [x] Build `PersonaTab` component (emoji + name + badge)
+- [x] Build `Heatmap` component (CSS Grid contribution chart)
 
 ## 3. App Shell Layout
-- [ ] Build `AppSidebar` — collapsed 60px, Lucide icons, active state Indigo, tooltip hover
-- [ ] Build `TopBar` — search input + Analyze button + Avatar dropdown
-- [ ] Build `AppShell` — compose sidebar + topbar + main content area
-- [ ] Build `SettingsSidebar` — 9-item nav, active Indigo border
-- [ ] Create `(app)/layout.tsx` — wraps all authenticated pages with AppShell
-- [ ] Create `(auth)/layout.tsx` — minimal layout for login page
+- [x] Build `AppSidebar` — collapsed 60px, Lucide icons, active state Indigo, tooltip hover
+- [x] Build `TopBar` — search input + Analyze button + Avatar dropdown
+- [x] Build `AppShell` — compose sidebar + topbar + main content area
+- [x] Build `SettingsSidebar` — 9-item nav, active Indigo border
+- [x] Create `(app)/layout.tsx` — wraps all authenticated pages with AppShell
+- [x] Create `(auth)/login/page.tsx` — placeholder login page
 
 ## 4. Routing & Page Shells
-- [ ] `/` → redirect to `/dashboard`
-- [ ] `/dashboard/page.tsx` — stat cards + heatmap + article card grid (static/placeholder data)
-- [ ] `/articles/page.tsx` — filter tabs + article table (empty state)
-- [ ] `/articles/[id]/page.tsx` — split-view reader shell (resizable panels)
-- [ ] `/settings/page.tsx` → redirect to `/settings/profile`
-- [ ] `/settings/profile/page.tsx` — avatar + name + email form
-- [ ] `/settings/auth/page.tsx` — password change + 2FA config
-- [ ] `/settings/ai-config/page.tsx` — model selection placeholder
-- [ ] `/settings/raindrop/page.tsx` — whitelist/blacklist + sync schedule
-- [ ] `/settings/analysis-team/page.tsx` — 4 persona cards with toggles
-- [ ] `/settings/notifications/page.tsx` — S7a: Telegram, Email, Browser Push, Quiet Hours
-- [ ] `/settings/data-export/page.tsx` — S7b: Storage, Export buttons, Backup, Danger Zone
-- [ ] `/settings/integrations/page.tsx` — S7c: Connected/Available services, API Access
-- [ ] `/settings/advanced/page.tsx` — debug info, logs
+- [x] `/` → redirect to `/dashboard`
+- [x] `/dashboard/page.tsx` — stat cards + heatmap + recent articles (mock data)
+- [x] `/articles/page.tsx` — filter tabs + article table with confidence dots
+- [x] `/articles/[id]/page.tsx` — split-view reader with persona tabs
+- [x] `/search/page.tsx` — search input + empty state
+- [x] `/settings/page.tsx` → redirect to `/settings/profile`
+- [x] `/settings/profile/page.tsx` — avatar + name + email form
+- [x] `/settings/auth/page.tsx` — connected accounts + password change
+- [x] `/settings/ai-config/page.tsx` — model selection dropdowns
+- [x] `/settings/raindrop/page.tsx` — connection status + sync mode
+- [x] `/settings/analysis-team/page.tsx` — 4 persona cards with toggles
+- [x] `/settings/notifications/page.tsx` — channels + quiet hours
+- [x] `/settings/data-export/page.tsx` — storage + export + backup + danger zone
+- [x] `/settings/integrations/page.tsx` — connected/available services + API access
+- [x] `/settings/advanced/page.tsx` — system info
 
 ## 5. Modals
-- [ ] Build `AnalyzeModal` — URL input + persona info text + progress state (Dialog)
-- [ ] Build `ReflectionModal` — insight + action + confidence slider + tags (Dialog)
-- [ ] Wire Analyze button in TopBar → opens AnalyzeModal
-- [ ] Wire Reflect button in reader → opens ReflectionModal
+- [x] Build `AnalyzeModal` — URL input + pipeline info + loading state (Dialog)
+- [x] Build `ReflectionModal` — insight + action + confidence slider + tags (Dialog)
+- [x] Wire Analyze button in TopBar → opens AnalyzeModal
+- [x] Wire Reflect button in reader → opens ReflectionModal
 
 ## 6. Supabase Database
 - [ ] Install Supabase CLI (`pnpm add -D supabase`)
@@ -105,3 +106,4 @@
 - [ ] Dark theme consistent across all pages
 - [ ] No TypeScript errors (`pnpm tsc --noEmit`)
 - [ ] No lint errors (`pnpm lint`)
+- [ ] Update README.md + README.vi.md with V2 web features
