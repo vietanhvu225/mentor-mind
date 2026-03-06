@@ -121,8 +121,9 @@ export default function LoginPage() {
                 body: JSON.stringify({ code, trustDevice }),
             });
             const data = await res.json();
-            if (data.success) {
-                router.push("/dashboard");
+            if (data.success && data.redirectUrl) {
+                // Redirect to auth callback to establish Supabase session
+                window.location.href = data.redirectUrl;
             } else {
                 setError(data.error || "Invalid code");
                 setLoading(null);
