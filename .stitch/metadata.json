@@ -1,0 +1,149 @@
+{
+    "name": "projects/16121599394031746314",
+    "projectId": "16121599394031746314",
+    "title": "MentorMind V2",
+    "visibility": "PRIVATE",
+    "createTime": "2026-03-01T20:34:52.766880Z",
+    "updateTime": "2026-03-05T18:21:45.546048Z",
+    "projectType": "PROJECT_DESIGN",
+    "origin": "STITCH",
+    "deviceType": "DESKTOP",
+    "designTheme": {
+        "colorMode": "DARK",
+        "font": "INTER",
+        "roundness": "ROUND_TWELVE",
+        "customColor": "#6764f2",
+        "saturation": 2
+    },
+    "screens": {
+        "dashboard": {
+            "id": "fea5396c08874d70ac16f318594a18b9",
+            "sourceScreen": "projects/16121599394031746314/screens/fea5396c08874d70ac16f318594a18b9",
+            "title": "MentorMind V2 Developer Dashboard",
+            "x": 1275,
+            "y": 22,
+            "width": 1280,
+            "height": 1024,
+            "version": "v2",
+            "status": "approved"
+        },
+        "articles-list": {
+            "id": "a8b28fd8226a4f9c9041a2ac31b317f4",
+            "sourceScreen": "projects/16121599394031746314/screens/a8b28fd8226a4f9c9041a2ac31b317f4",
+            "title": "MentorMind V2 Articles Management",
+            "x": 1344,
+            "y": 1302,
+            "width": 1280,
+            "height": 1251,
+            "version": "v2",
+            "status": "approved"
+        },
+        "split-view-reader": {
+            "id": "8b6fd8b015a3412ca2e89003442d2c31",
+            "sourceScreen": "projects/16121599394031746314/screens/8b6fd8b015a3412ca2e89003442d2c31",
+            "title": "MentorMind V2 Split-View Reader",
+            "x": 1344,
+            "y": 2809,
+            "width": 1280,
+            "height": 1024,
+            "version": "v2",
+            "status": "approved"
+        },
+        "analyze-modal-input": {
+            "id": "20e19ac813f3437099c26f970f4b9e49",
+            "sourceScreen": "projects/16121599394031746314/screens/20e19ac813f3437099c26f970f4b9e49",
+            "title": "Analyze Article Modal - Input State",
+            "x": 1344,
+            "y": 4089,
+            "width": 1280,
+            "height": 1024,
+            "version": "v2",
+            "status": "approved"
+        },
+        "analyze-modal-progress": {
+            "id": "08910e3a2dc2417799926a3ccb33837d",
+            "sourceScreen": "projects/16121599394031746314/screens/08910e3a2dc2417799926a3ccb33837d",
+            "title": "Analyze Article Modal - Progress State",
+            "x": 2688,
+            "y": 4089,
+            "width": 1280,
+            "height": 1024,
+            "version": "v1",
+            "status": "approved"
+        },
+        "reflection-modal": {
+            "id": "94beaf094db249a9a5bc4463bc39bda7",
+            "sourceScreen": "projects/16121599394031746314/screens/94beaf094db249a9a5bc4463bc39bda7",
+            "title": "Article Reflection Modal",
+            "x": 1344,
+            "y": 5369,
+            "width": 1280,
+            "height": 1024,
+            "version": "v2",
+            "status": "approved"
+        },
+        "login": {
+            "id": "d9540c57b8134a728b3ee42364e5491b",
+            "sourceScreen": "projects/16121599394031746314/screens/d9540c57b8134a728b3ee42364e5491b",
+            "title": "MentorMind V2 Login Screen",
+            "x": 2716,
+            "y": 6671,
+            "width": 1280,
+            "height": 1024,
+            "version": "v2",
+            "status": "approved",
+            "notes": "Hybrid auth: Google SSO + TOTP OTP + email/password. Config via AUTH_PROVIDER env var."
+        },
+        "settings-main": {
+            "id": "291168428aaa49f996a6a80681688ca1",
+            "sourceScreen": "projects/16121599394031746314/screens/291168428aaa49f996a6a80681688ca1",
+            "title": "MentorMind V2 Settings Configuration",
+            "x": 1344,
+            "y": 7961,
+            "width": 1280,
+            "height": 1024,
+            "version": "v2",
+            "status": "approved",
+            "notes": "Profile + Raindrop Sync (whitelist/blacklist) + Analysis Team"
+        },
+        "settings-notifications": {
+            "id": "5dd429e94ed1438a8c89a5dd9781a8c1",
+            "sourceScreen": "projects/16121599394031746314/screens/5dd429e94ed1438a8c89a5dd9781a8c1",
+            "title": "MentorMind V2 Notification Settings",
+            "x": 1344,
+            "y": 9241,
+            "width": 1280,
+            "height": 1024,
+            "version": "v2",
+            "status": "approved",
+            "notes": "Telegram Bot + Email Digest + Browser Push + Quiet Hours"
+        },
+        "settings-data-export": {
+            "id": "457a61a363df473cab31c83856f5ed4b",
+            "sourceScreen": "projects/16121599394031746314/screens/457a61a363df473cab31c83856f5ed4b",
+            "title": "MentorMind V2 Data & Export Settings",
+            "x": 1344,
+            "y": 10521,
+            "width": 1280,
+            "height": 1048,
+            "version": "v2",
+            "status": "approved",
+            "notes": "Storage Overview + Quick Export (JSON/CSV/JSON-LD/Markdown) + Automated Backups + Danger Zone"
+        },
+        "settings-integrations": {
+            "id": "e1f61beff9184e57a3182e5bacd148ee",
+            "sourceScreen": "projects/16121599394031746314/screens/e1f61beff9184e57a3182e5bacd148ee",
+            "title": "MentorMind V2 Integration Settings",
+            "x": 1344,
+            "y": 11801,
+            "width": 1280,
+            "height": 1048,
+            "version": "v2",
+            "status": "approved",
+            "notes": "Raindrop + Telegram + Notion + Obsidian + Readwise + GitHub + API Access"
+        }
+    },
+    "metadata": {
+        "userRole": "OWNER"
+    }
+}
